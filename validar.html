@@ -1,31 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Validación OTP – ISAN Atelier Academiae</title>
-  <script src="https://cdn.jsdelivr.net/npm/otplib@12.0.1/dist/otplib.umd.min.js"></script>
+  <title>Validación OTP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 60px;
+      background-color: #f9f9f9;
+    }
+    .mensaje {
+      font-size: 1.2em;
+      color: #333;
+    }
+  </style>
 </head>
-<body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
-  <h2>🔐 Acceso multisede ritualizado</h2>
-  <p>Ingresa el código OTP generado por tu app autenticadora:</p>
-  <input type="text" id="otpInput" placeholder="Código OTP" style="padding: 8px; font-size: 16px;">
-  <br><br>
-  <button onclick="validarOTP()" style="padding: 10px 20px; font-size: 16px;">Validar</button>
-  <p id="resultado" style="margin-top: 20px; font-weight: bold;"></p>
+<body>
+  <div class="mensaje">Procesando código OTP...</div>
 
   <script>
-    const secret = 'JBSWY3DPEHPK3PXP'; // Llave secreta TOTP
+    const params = new URLSearchParams(window.location.search);
+    const otp = params.get("otp");
 
-    function validarOTP() {
-      const userInput = document.getElementById('otpInput').value.trim();
-      const isValid = otplib.authenticator.check(userInput, secret);
-
-      if (isValid) {
-        document.getElementById('resultado').textContent = '✅ Acceso concedido';
-        window.location.href = 'archivo-patrimonial.html'; // Redirección multisede
-      } else {
-        document.getElementById('resultado').textContent = '❌ Código inválido. Intenta nuevamente.';
-      }
+    // Simulación de validación básica
+    if (otp && otp.length >= 6) {
+      setTimeout(() => {
+        window.location.href = "archivo-patrimonial.html";
+      }, 1500);
+    } else {
+      document.body.innerHTML = "<h1>OTP inválido</h1><p>Por favor regrese e intente nuevamente.</p>";
     }
   </script>
 </body>
