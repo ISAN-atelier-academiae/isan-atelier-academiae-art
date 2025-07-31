@@ -1,43 +1,31 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Validación OTP – ISAN Atelier Academiae</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      background-color: #fff;
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      padding: 60px;
-    }
-    .mensaje {
-      font-size: 1.2em;
-      color: #333;
-      margin-top: 40px;
-    }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/otplib@12.0.1/dist/otplib.umd.min.js"></script>
 </head>
-<body>
-  <h2>Validando código OTP...</h2>
-  <div class="mensaje" id="resultado"></div>
+<body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+  <h2>🔐 Acceso multisede ritualizado</h2>
+  <p>Ingresa el código OTP generado por tu app autenticadora:</p>
+  <input type="text" id="otpInput" placeholder="Código OTP" style="padding: 8px; font-size: 16px;">
+  <br><br>
+  <button onclick="validarOTP()" style="padding: 10px 20px; font-size: 16px;">Validar</button>
+  <p id="resultado" style="margin-top: 20px; font-weight: bold;"></p>
 
   <script>
-    // Lista de códigos válidos (puedes expandirla o rotarla)
-    const codigosValidos = ["ISAN2025", "MULTISEDE33", "ARCHIVO88"];
+    const secret = 'JBSWY3DPEHPK3PXP'; // Llave secreta TOTP
 
-    // Obtener el código ingresado desde la URL
-    const params = new URLSearchParams(window.location.search);
-    const otp = params.get("otp");
+    function validarOTP() {
+      const userInput = document.getElementById('otpInput').value.trim();
+      const isValid = otplib.authenticator.check(userInput, secret);
 
-    // Validar el código
-    if (codigosValidos.includes(otp)) {
-      document.getElementById("resultado").innerText = "Acceso validado. Redirigiendo...";
-      setTimeout(() => {
-        window.location.href = "https://www.isan-atelier-academiae.art/archivo-patrimonial";
-      }, 2000);
-    } else {
-      document.getElementById("resultado").innerText = "Código inválido. Acceso denegado.";
+      if (isValid) {
+        document.getElementById('resultado').textContent = '✅ Acceso concedido';
+        window.location.href = 'archivo-patrimonial.html'; // Redirección multisede
+      } else {
+        document.getElementById('resultado').textContent = '❌ Código inválido. Intenta nuevamente.';
+      }
     }
   </script>
 </body>
