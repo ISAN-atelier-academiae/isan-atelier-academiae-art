@@ -2,20 +2,23 @@
 <script>
   const secret = 'MZXW6YTBOI======'; // Clave secreta del Director
 
+  const authenticator = otplib.authenticator;
+  authenticator.options = { digits: 8 }; // Configura OTP de 8 dígitos
+
   document.getElementById("otpForm").addEventListener("submit", function(event) {
     event.preventDefault();
     const otp = document.getElementById("otpInput").value.trim();
     const mensaje = document.getElementById("mensaje");
 
-    const isValid = otplib.authenticator.check(otp, secret);
+    const isValid = authenticator.check(otp, secret);
 
     if (isValid) {
-      mensaje.textContent = "Acceso validado. Redirigiendo al archivo de dirección...";
+      mensaje.textContent = "✅ Acceso validado. Redirigiendo al archivo de dirección...";
       setTimeout(() => {
         window.location.href = "archivo-direccion.html";
       }, 1500);
     } else {
-      mensaje.textContent = "OTP inválido. Intente nuevamente.";
+      mensaje.textContent = "❌ OTP inválido. Intente nuevamente.";
     }
   });
 </script>
