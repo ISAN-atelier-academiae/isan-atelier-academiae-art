@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Validación OTP – ISAN Atelier Academiae</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 60px;
+    }
+    .mensaje {
+      font-size: 1.2em;
+      color: #333;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Validando código OTP...</h2>
+  <div class="mensaje" id="resultado"></div>
+
+  <script>
+    // Lista de códigos válidos (puedes expandirla o rotarla)
+    const codigosValidos = ["ISAN2025", "MULTISEDE33", "ARCHIVO88"];
+
+    // Obtener el código ingresado desde la URL
+    const params = new URLSearchParams(window.location.search);
+    const otp = params.get("otp");
+
+    // Validar el código
+    if (codigosValidos.includes(otp)) {
+      document.getElementById("resultado").innerText = "Acceso validado. Redirigiendo...";
+      setTimeout(() => {
+        window.location.href = "https://www.isan-atelier-academiae.art/archivo-patrimonial";
+      }, 2000);
+    } else {
+      document.getElementById("resultado").innerText = "Código inválido. Acceso denegado.";
+    }
+  </script>
+</body>
+</html>
