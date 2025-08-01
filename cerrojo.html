@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cerrojo Hermético – ISAN Atelier Academiae</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/otplib@12.0.1/otplib-browser.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      text-align: center;
+      padding: 60px;
+    }
+    .emblema {
+      max-width: 160px;
+      margin-bottom: 20px;
+    }
+    .titulo {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+      color: #222;
+    }
+    .subtitulo {
+      font-size: 1em;
+      margin-bottom: 30px;
+      color: #555;
+    }
+    input[type="text"] {
+      padding: 12px;
+      width: 280px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    .boton {
+      padding: 12px 24px;
+      background-color: #004080;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .boton:hover {
+      background-color: #0066cc;
+    }
+    .mensaje {
+      margin-top: 20px;
+      font-size: 1em;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="emblema-director.png" alt="Emblema ISAN" class="emblema">
+  <div class="titulo">Ingreso Ritualizado</div>
+  <div class="subtitulo">Ingrese su código OTP de 8 dígitos para acceder a las profundidades patrimoniales</div>
+
+  <form id="otpForm">
+    <input type="text" id="otpInput" placeholder="Código OTP" required>
+    <br>
+    <button type="submit" class="boton">Validar acceso</button>
+  </form>
+
+  <div class="mensaje" id="mensaje"></div>
+
+  <script>
+    const secret = 'MZXW6YTBOI======'; // Clave secreta institucional
+    const authenticator = otplib.authenticator;
+    authenticator.options = { digits: 8 }; // OTP de 8 dígitos
+
+    document.getElementById("otpForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const otp = document.getElementById("otpInput").value.trim();
+      const mensaje = document.getElementById("mensaje");
+
+      const isValid = authenticator.check(otp, secret);
+
+      if (isValid) {
+        mensaje.textContent = "✅ Acceso validado. Redirigiendo...";
+        setTimeout(() => {
+          window.location.href = "archivo-direccion.html"; // O cualquier página profunda
+        }, 1500);
+      } else {
+        mensaje.textContent = "❌ Código inválido. Intente nuevamente.";
+      }
+    });
+  </script>
+
+</body>
+</html>
